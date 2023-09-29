@@ -1,0 +1,10 @@
+email:
+    addr: smtp.qq.com:25
+    host: smtp.qq.com
+    from: "study_system <2745969694@qq.com>"
+    email: 2745969694@qq.com
+    auth: xhteefrzvgasdeig
+    expire: 300
+consul:
+    host: 192.168.1.75
+    port: 8500

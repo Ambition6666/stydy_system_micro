@@ -1,0 +1,70 @@
+syntax = "proto3";
+
+package login;
+option go_package="/user";
+
+//------------------------------------协议层-----------------------------------------------
+
+//用户获取验证码
+message UserGetAuthCode{
+    string email=1;
+}
+//用户通过密码登录
+message UserLoginImformationsByPwd{
+    string email=1;
+    string pwd=2;
+}
+//用户通过验证码登录
+message UserLoginImformationsByAuthCode{
+    string email=1;
+    string auth_code=2;
+}
+//用户注册
+message UserRegister{
+    string email=1;
+    string pwd=2;
+}
+//返回用户token
+message UserToken{
+    int32 code=1;
+    string token=2;
+}
+//普通响应
+message CommonResponse{
+    int32 code = 1;
+    string msg = 2;
+}
+
+//获取用户信息
+message UserInfo{
+    int64 id=1;
+}
+
+message UpdateUserInfoReq{
+    int64 id=1;
+    string data=2;
+}
+
+message GetUserInfoResponse{
+    int32 code=1;
+    message User{
+        int64 uid=1;
+        string email=2;
+        string nick_name=3;
+        string avatar=4;
+        int32 role=5; 
+    }
+}
+
+//------------------------------------功能层-----------------------------------------------
+
+
+
+service User{
+    rpc Register(UserRegister)returns (CommonResponse) {}//用户注册
+    rpc GetAuthCode(UserGetAuthCode)returns (CommonResponse) {}//用户获取验证码
+    rpc Login(UserLoginImformationsByAuthCode)returns (UserToken){}//用户通过验证码登录
+    rpc LoginByPwd(UserLoginImformationsByPwd)returns (UserToken){}//用户通过密码登录
+    rpc GetUserInfo(UserInfo)returns(GetUserInfoResponse){}//获取用户信息
+    rpc UpdateUserInfo(UpdateUserInfoReq)returns(CommonResponse){}//更新用户信息
+}

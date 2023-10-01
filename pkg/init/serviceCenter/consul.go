@@ -45,6 +45,6 @@ func (c *consul) RegisterService(serviceName string, ip string, port int) error 
 }
 
 // Deregister 注销服务
-func (c *consul) Deregister(serviceID string) error {
-	return c.client.Agent().ServiceDeregister(serviceID)
+func (c *consul) Deregister(serviceName string, ip string, port int) error {
+	return c.client.Agent().ServiceDeregister(fmt.Sprintf("%s-%s-%d", serviceName, ip, port))
 }

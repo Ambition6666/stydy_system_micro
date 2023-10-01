@@ -36,24 +36,26 @@ message CommonResponse{
 }
 
 //获取用户信息
-message UserInfo{
+message GETUserInfo{
     int64 id=1;
 }
 
 message UpdateUserInfoReq{
     int64 id=1;
-    string data=2;
+    int32 action=2;
+    string data=3;
 }
-
+message UserInfo{
+    int64 uid=1;
+    string email=2;
+    string nick_name=3;
+    string avatar=4;
+    int32 role=5; 
+    string individual_resume=6;
+}
 message GetUserInfoResponse{
     int32 code=1;
-    message User{
-        int64 uid=1;
-        string email=2;
-        string nick_name=3;
-        string avatar=4;
-        int32 role=5; 
-    }
+    UserInfo user_info=2;
 }
 
 //------------------------------------功能层-----------------------------------------------
@@ -65,6 +67,6 @@ service User{
     rpc GetAuthCode(UserGetAuthCode)returns (CommonResponse) {}//用户获取验证码
     rpc Login(UserLoginImformationsByAuthCode)returns (UserToken){}//用户通过验证码登录
     rpc LoginByPwd(UserLoginImformationsByPwd)returns (UserToken){}//用户通过密码登录
-    rpc GetUserInfo(UserInfo)returns(GetUserInfoResponse){}//获取用户信息
+    rpc GetUserInfo(GETUserInfo)returns(GetUserInfoResponse){}//获取用户信息
     rpc UpdateUserInfo(UpdateUserInfoReq)returns(CommonResponse){}//更新用户信息
 }

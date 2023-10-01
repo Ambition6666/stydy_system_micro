@@ -26,7 +26,7 @@ type UserClient interface {
 	GetAuthCode(ctx context.Context, in *UserGetAuthCode, opts ...grpc.CallOption) (*CommonResponse, error)
 	Login(ctx context.Context, in *UserLoginImformationsByAuthCode, opts ...grpc.CallOption) (*UserToken, error)
 	LoginByPwd(ctx context.Context, in *UserLoginImformationsByPwd, opts ...grpc.CallOption) (*UserToken, error)
-	GetUserInfo(ctx context.Context, in *UserInfo, opts ...grpc.CallOption) (*GetUserInfoResponse, error)
+	GetUserInfo(ctx context.Context, in *GETUserInfo, opts ...grpc.CallOption) (*GetUserInfoResponse, error)
 	UpdateUserInfo(ctx context.Context, in *UpdateUserInfoReq, opts ...grpc.CallOption) (*CommonResponse, error)
 }
 
@@ -74,7 +74,7 @@ func (c *userClient) LoginByPwd(ctx context.Context, in *UserLoginImformationsBy
 	return out, nil
 }
 
-func (c *userClient) GetUserInfo(ctx context.Context, in *UserInfo, opts ...grpc.CallOption) (*GetUserInfoResponse, error) {
+func (c *userClient) GetUserInfo(ctx context.Context, in *GETUserInfo, opts ...grpc.CallOption) (*GetUserInfoResponse, error) {
 	out := new(GetUserInfoResponse)
 	err := c.cc.Invoke(ctx, "/login.User/GetUserInfo", in, out, opts...)
 	if err != nil {
@@ -100,7 +100,7 @@ type UserServer interface {
 	GetAuthCode(context.Context, *UserGetAuthCode) (*CommonResponse, error)
 	Login(context.Context, *UserLoginImformationsByAuthCode) (*UserToken, error)
 	LoginByPwd(context.Context, *UserLoginImformationsByPwd) (*UserToken, error)
-	GetUserInfo(context.Context, *UserInfo) (*GetUserInfoResponse, error)
+	GetUserInfo(context.Context, *GETUserInfo) (*GetUserInfoResponse, error)
 	UpdateUserInfo(context.Context, *UpdateUserInfoReq) (*CommonResponse, error)
 	mustEmbedUnimplementedUserServer()
 }
@@ -121,7 +121,7 @@ func (UnimplementedUserServer) Login(context.Context, *UserLoginImformationsByAu
 func (UnimplementedUserServer) LoginByPwd(context.Context, *UserLoginImformationsByPwd) (*UserToken, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method LoginByPwd not implemented")
 }
-func (UnimplementedUserServer) GetUserInfo(context.Context, *UserInfo) (*GetUserInfoResponse, error) {
+func (UnimplementedUserServer) GetUserInfo(context.Context, *GETUserInfo) (*GetUserInfoResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserInfo not implemented")
 }
 func (UnimplementedUserServer) UpdateUserInfo(context.Context, *UpdateUserInfoReq) (*CommonResponse, error) {
@@ -213,7 +213,7 @@ func _User_LoginByPwd_Handler(srv interface{}, ctx context.Context, dec func(int
 }
 
 func _User_GetUserInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UserInfo)
+	in := new(GETUserInfo)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -225,7 +225,7 @@ func _User_GetUserInfo_Handler(srv interface{}, ctx context.Context, dec func(in
 		FullMethod: "/login.User/GetUserInfo",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServer).GetUserInfo(ctx, req.(*UserInfo))
+		return srv.(UserServer).GetUserInfo(ctx, req.(*GETUserInfo))
 	}
 	return interceptor(ctx, in, info, handler)
 }
